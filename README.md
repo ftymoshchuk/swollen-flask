@@ -6,8 +6,21 @@ BeeSafe: Comprehensive Risk Assessment for Bee Conservation
 ### Data flow
 
 ```mermaid
-  flowchart LR
-    ml-model --> flask-with-UI --> git-repo --> web-app --> web-page
+  flowchart TB
+    subgraph git-repo
+      subgraph back-end
+      ml-model
+      end
+      subgraph front-end
+      flask
+      end
+    end
+    subgraph azure
+    web-app
+    end
+    web-app --- web-page
+    flask -.-> ml-model
+    web-app --> git-repo 
 ```
 
 ### QA
