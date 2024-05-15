@@ -1,11 +1,24 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Welcome</title>
-    </head>
-    <body>
-        <h1>My First Heading</h1>
+{% extends 'base.html' %}
 
-        <p>My first paragraph.</p>
-    </body>
-</html>
+{% block titile%}Main Page{%endblock%}
+
+{% block content %}
+<h1>Add 2 to Your Number</h1>
+<form method="POST">
+    <label for="user_input">Enter a number:</label>
+    <input type="text" id="user_input" name="user_input">
+    <button type="submit">Submit</button>
+</form>
+{% if result is not none %}
+    <p>Result: {{ result }}</p>
+{% endif %}
+{% if error %}
+    <p style="color: red;">{{ error }}</p>
+{% endif %}
+
+{%endblock%}
+
+
+
+
+
