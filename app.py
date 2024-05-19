@@ -1,52 +1,61 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import folium
+from folium.plugins import HeatMapWithTime
+import warnings
 
 app = Flask(__name__)
 
-def summ(user_input):
-    try:
-        return int(user_input) + 2
-    except ValueError:
-        return None
-
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def main():
-    result = None
-    error = None
-    if request.method == 'POST':
-        user_input = request.form.get('user_input')
-        result = summ(user_input)
-        if result is None:
-            error = "Please provide only numbers."
+    return render_template('main.html')
 
-    return render_template('main.html', result=result, error=error)
-
-csv_file_path = 'master_data_us_no_duplicates_cleaned.csv'
+csv_file_path = 'master_data_us_no_duplicates_cleaned_fixedDate.csv'
 
 @app.route('/map_view')
 def index():
     try:
+        # Filter out specific warnings if necessary
+        warnings.filterwarnings("ignore", category=UserWarning, module='folium')
+
         df = pd.read_csv(csv_file_path, sep='\t')
         print(df.head())  # Debug: print the first few rows of the DataFrame
-        
+
         # Check if DataFrame is empty
         if df.empty:
             return "No data available"
 
-        # Create a map centered at an average location
+        # Ensure eventDate is parsed correctly and remove timezone information
+        df['eventDate'] = pd.to_datetime(df['eventDate'], errors='coerce')
+        df = df.dropna(subset=['eventDate'])  # Drop rows with invalid dates
+
+        # Ensure the 'eventDate' column is of datetime type
+        if df['eventDate'].dtype != '<M8[ns]':
+            raise ValueError("eventDate column is not datetime type after conversion")
+
+        # Remove timezone information
+        df['eventDate'] = df['eventDate'].dt.tz_localize(None)
+        df.sort_values('eventDate', inplace=True)
+
+        # Group data by date
+        grouped = df.groupby(df['eventDate'].dt.date)
+
+        heat_data = []
+        time_index = []
+
+        for date, group in grouped:
+            heat_data.append(group[['decimalLatitude', 'decimalLongitude']].values.tolist())
+            time_index.append(date.strftime('%Y-%m-%d'))
+
+        # Create the map centered at an average location
         m = folium.Map(location=[df['decimalLatitude'].mean(), df['decimalLongitude'].mean()], zoom_start=5)
-        
-        # Add points to the map
-        for _, row in df.iterrows():
-            folium.Marker(
-                location=[row['decimalLatitude'], row['decimalLongitude']],
-                popup=f"Date: {row['eventDate']}, Location: ({row['decimalLatitude']}, {row['decimalLongitude']})",
-            ).add_to(m)
-        
+
+        # Add HeatMapWithTime to the map with the oldest date as the start date
+        HeatMapWithTime(data=heat_data, index=time_index, auto_play=True, max_opacity=0.8).add_to(m)
+
         # Save map to an HTML string
         map_html = m._repr_html_()
-        
+
         return render_template('map.html', map_html=map_html)
     
     except Exception as e:
@@ -54,4 +63,4 @@ def index():
         return str(e)
 
 if __name__ == '__main__':
-   app.run()
+   app.run(debug=True)
