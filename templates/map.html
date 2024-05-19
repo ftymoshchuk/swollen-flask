@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Map View{% endblock %}
+{% block content %}
+
+<h1>Map of US Locations with Event Heatmap Over Time</h1>
+
+<p>This heat map shows the distribution of recorded bee populations (Apis mellifera Linnaeus, 1758) over time across the US.</p>
+<p>GBIF.org (21 November 2023) GBIF Occurrence Download <a href="https://doi.org/10.15468/dl.2c535g" target="_blank">https://doi.org/10.15468/dl.2c535g</a></p>
+
+<div id="mapContainer" style="padding: 5%; box-sizing: border-box;">
+    {{ map_html|safe }}
+</div>
+
+<p><a href="/">Return to Main Page</a></p>
+
+{% endblock %}

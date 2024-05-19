@@ -1,24 +1,13 @@
 {% extends 'base.html' %}
 
-{% block titile%}Main Page{%endblock%}
+{% block title %}Main Page{% endblock %}
 
 {% block content %}
-<h1>Add 2 to Your Number</h1>
-<form method="POST">
-    <label for="user_input">Enter a number:</label>
-    <input type="text" id="user_input" name="user_input">
-    <button type="submit">Submit</button>
-</form>
-{% if result is not none %}
-    <p>Result: {{ result }}</p>
-{% endif %}
-{% if error %}
-    <p style="color: red;">{{ error }}</p>
-{% endif %}
+<h1>Introduction</h1>
+<p>Bees play a crucial role in the pollination system, significantly impacting the agricultural sector. As pollinators, bees facilitate the reproduction of flowering plants by transferring pollen from male to female flower parts. This process is essential for the production of fruits, seeds, and vegetables. In agriculture, the majority of crops rely on pollination, and bees are among the most effective pollinators. Their contribution enhances crop yields and promotes genetic diversity. The decline in bee populations poses a serious threat to global food security, as it could lead to reduced agricultural productivity. Sustainable farming practices and conservation efforts are imperative to safeguard these vital pollinators and ensure a resilient agricultural ecosystem.</p>
 
-{%endblock%}
+<h2>Goal of the Project</h2>
+<p>Project Goal: Develop a comprehensive method to quantify risks to bee existence and pollination in agricultural ecosystems, identifying stressors like pesticides and habitat loss. Provide actionable insights for conservation and sustainable farming.</p>
 
-
-
-
-
+<p><a href="/map_view">View Map of US Locations</a></p>
+{% endblock %}
