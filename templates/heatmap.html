@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Heat Map View{% endblock %}
+{% block content %}
+
+<h1>Map of US Locations with Event Heatmap</h1>
+
+<div id="heatmap">{{ map_html|safe }}</div>
+<a href="/">Back to Main</a>
+
+{% endblock %}
