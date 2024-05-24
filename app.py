@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import pandas as pd
 import folium
 from folium.plugins import HeatMapWithTime
+from folium.plugins import HeatMap
 import warnings
 
 app = Flask(__name__)
@@ -10,15 +11,34 @@ app = Flask(__name__)
 def main():
     return render_template('main.html')
 
-csv_file_path = 'master_data_us_no_duplicates_cleaned_fixedDate.csv'
+csv_file_path = 'master_final.csv'
 
-@app.route('/map_view')
+@app.route('/heat-map-view')
+def heat_map():
+    df = pd.read_csv(csv_file_path)
+
+    # Check if DataFrame is empty
+    if df.empty:
+        return "No data available"
+
+    # Create a folium map centered at an average location
+    m = folium.Map(location=[df['decimalLatitude'].mean(), df['decimalLongitude'].mean()], zoom_start=5)
+
+    # Prepare data for heat map
+    heat_data = df[['decimalLatitude', 'decimalLongitude']].dropna().values.tolist()
+
+    # Add heat map layer
+    HeatMap(heat_data).add_to(m)
+
+    return m._repr_html_()
+
+@app.route('/map-view')
 def index():
     try:
         # Filter out specific warnings if necessary
         warnings.filterwarnings("ignore", category=UserWarning, module='folium')
 
-        df = pd.read_csv(csv_file_path, sep='\t')
+        df = pd.read_csv(csv_file_path)
         print(df.head())  # Debug: print the first few rows of the DataFrame
 
         # Check if DataFrame is empty
@@ -28,10 +48,6 @@ def index():
         # Ensure eventDate is parsed correctly and remove timezone information
         df['eventDate'] = pd.to_datetime(df['eventDate'], errors='coerce')
         df = df.dropna(subset=['eventDate'])  # Drop rows with invalid dates
-
-        # Ensure the 'eventDate' column is of datetime type
-        if df['eventDate'].dtype != '<M8[ns]':
-            raise ValueError("eventDate column is not datetime type after conversion")
 
         # Remove timezone information
         df['eventDate'] = df['eventDate'].dt.tz_localize(None)
