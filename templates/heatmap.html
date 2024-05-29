@@ -5,7 +5,10 @@
 
 <h1>Map of US Locations with Event Heatmap</h1>
 
-<div id="heatmap">{{ map_html|safe }}</div>
-<a href="/">Back to Main</a>
+<p><a href="/">Return to Main Page</a></p>
+
+<div id="heatmap" style="height: 600px; width: 100%; padding: 5%; box-sizing: border-box;">
+    {{ map_html|safe }}
+</div>
 
 {% endblock %}
