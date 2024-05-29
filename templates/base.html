@@ -4,10 +4,15 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}</title>
-        <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
-       {% block content %}
-       {% endblock %}
+        <ul class="navbar">
+            <li><a href="/">Home</a></li>
+            <li><a href="/map-view">View Map of US Locations</a></li>
+            <li><a href="/heat-map-view">Heat map view of US Locations</a></li>
+        </ul>
+        {% block content %}
+        {% endblock %}
     </body>
 </html>
