@@ -3,13 +3,13 @@ import pandas as pd
 import folium
 from folium.plugins import HeatMapWithTime
 from folium.plugins import HeatMap
-#  import warnings
 import constants
+import data_connector
 
 app = Flask(__name__)
 
 state_mapping = constants.state_mapping
-master_data = pd.read_csv(constants.csv_file_path)
+master_data = data_connector.get_data()
 
 # Reverse the state mapping for dropdown display
 reverse_state_mapping = {v: k for k, v in state_mapping.items()}
@@ -72,10 +72,9 @@ def bee_chance():
 def bee_count():
     try:
         state_numeric = int(request.form['state'])
-        local_df = master_data
 
         # Filter the DataFrame for the selected state
-        count = local_df[local_df['stateNumeric'] == state_numeric].shape[0]
+        count = master_data[master_data['stateNumeric'] == state_numeric].shape[0]
 
         state_name = reverse_state_mapping[state_numeric]
         return render_template('main.html', states=reverse_state_mapping, state=state_name, count=count)
@@ -87,13 +86,11 @@ def bee_count():
 @app.route('/heat-map-view')
 def heat_map():
     try:
-        local_df = master_data
-
         # Create a folium map centered at an average location
-        m = folium.Map(location=[local_df['decimalLatitude'].mean(), local_df['decimalLongitude'].mean()], zoom_start=5)
+        m = folium.Map(location=[master_data['decimalLatitude'].mean(), master_data['decimalLongitude'].mean()], zoom_start=5)
 
         # Prepare data for heat map
-        heat_data = local_df[['decimalLatitude', 'decimalLongitude']].dropna().values.tolist()
+        heat_data = master_data[['decimalLatitude', 'decimalLongitude']].values.tolist()
 
         # Add heat map layer
         HeatMap(heat_data).add_to(m)
@@ -115,8 +112,8 @@ def index():
         #  warnings.filterwarnings("ignore", category=UserWarning, module='folium')
 
         # Ensure eventDate is parsed correctly and remove timezone information
-        local_df['eventDate'] = pd.to_datetime(local_df['eventDate'], errors='coerce')
-        local_df = local_df.dropna(subset=['eventDate'])  # Drop rows with invalid dates
+        #local_df['eventDate'] = pd.to_datetime(local_df['eventDate'], errors='coerce')
+        #local_df = local_df.dropna(subset=['eventDate'])  # Drop rows with invalid dates
 
         # Remove timezone information
         local_df['eventDate'] = local_df['eventDate'].dt.tz_localize(None)

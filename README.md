@@ -31,3 +31,9 @@ Don’t wait get your score
 
 * MR to main from uat
 * test in local first
+
+## User navigation
+```mermaid
+  flowchart LR
+      A["User provide input"] --> B["Output of the model"] --> C["Web-page shows how user can help environment"]
+```
