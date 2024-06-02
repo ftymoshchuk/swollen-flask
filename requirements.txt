@@ -4,3 +4,4 @@ Werkzeug==2.2.2
 folium
 branca
 pandas
+azure.storage.blob
