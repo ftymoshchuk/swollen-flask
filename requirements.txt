@@ -5,3 +5,4 @@ folium
 branca
 pandas
 azure.storage.blob
+tqdm
