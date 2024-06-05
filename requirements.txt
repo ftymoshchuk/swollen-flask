@@ -1,8 +1,8 @@
 Flask==2.2.2
 gunicorn==21.2.0
-Werkzeug==2.2.2
+Werkzeug==2.2.3
 folium==0.14.0
-branca==0.6
+branca==0.6.0
 pandas==2.0.3  
-azure.storage.blob==12.20.0
+azure-storage-blob==12.20.0
 tqdm==4.65.0
