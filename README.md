@@ -24,9 +24,17 @@ Don’t wait get your score
     subgraph azure
     web-app
     end
+    subgraph pip
+    swollen-package
+    end
+    subgraph open-source
+    swollen
+    end
+    swollen --> swollen-package
     web-app --- web-page
     flask -.-> ml-model
-    web-app --> git-repo 
+    flask -.-> swollen-package
+    web-app --> git-repo
 ```
 
 ### QA
