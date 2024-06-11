@@ -14,12 +14,8 @@ Don’t wait get your score
 ```mermaid
   flowchart TB
     subgraph git-repo
-      subgraph back-end
       ml-model
-      end
-      subgraph front-end
       flask
-      end
     end
     subgraph azure
     web-app
