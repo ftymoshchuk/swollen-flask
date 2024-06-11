@@ -1,6 +1,8 @@
 # swollen
 BeeSafe: Comprehensive Risk Assessment for Bee Conservation
 
+https://pypi.org/user/fedirek/
+
 
 Bee Score: Enhancing Pollination, Sustaining Life
 Awareness of Bee score can increase pollination by 30%
