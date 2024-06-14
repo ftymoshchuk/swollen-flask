@@ -1,11 +1,6 @@
 # swollen
 BeeSafe: Comprehensive Risk Assessment for Bee Conservation
 
-
-Bee Score: Enhancing Pollination, Sustaining Life
-Awareness of Bee score can increase pollination by 30%
-Don’t wait get your score
-
 ## Architecture
 ### Data flow
 
@@ -26,11 +21,6 @@ Don’t wait get your score
     flask -.-> ml-model
     web-app --> git-repo 
 ```
-
-### QA
-
-* MR to main from uat
-* test in local first
 
 ## User navigation
 ```mermaid
