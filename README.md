@@ -7,19 +7,23 @@ BeeSafe: Comprehensive Risk Assessment for Bee Conservation
 ```mermaid
   flowchart TB
     subgraph git-repo
-      subgraph back-end
       ml-model
-      end
-      subgraph front-end
       flask
-      end
     end
     subgraph azure
     web-app
     end
+    subgraph pip
+    swollen-package
+    end
+    subgraph open-source
+    swollen
+    end
+    swollen --> swollen-package
     web-app --- web-page
     flask -.-> ml-model
-    web-app --> git-repo 
+    flask -.-> swollen-package
+    web-app --> git-repo
 ```
 
 ## User navigation
