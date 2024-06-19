@@ -1,3 +1,4 @@
+import os
 from azure.storage.blob import BlobServiceClient, BlobClient
 import pandas as pd
 from io import StringIO
@@ -6,8 +7,7 @@ from tqdm import tqdm
 import functools
 import constants
 
-# Replace with your actual connection string
-connection_string = ''
+connection_string = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
 container_name = 'data-swollen'
 master_file = constants.csv_file_path
 
