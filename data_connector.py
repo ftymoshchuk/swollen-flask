@@ -7,7 +7,7 @@ import functools
 import constants
 
 # Replace with your actual connection string
-connection_string = 'DefaultEndpointsProtocol=https;AccountName=experimentstorage234;AccountKey=za0T9NgDLAP2vl4d1JSpRSUcyuATvcrj1ekoZ4Jh7dr4QfHeSN8YjW6e+cRAMiSiAXfTpJWfbK6j+AStcCPS9A==;EndpointSuffix=core.windows.net'
+connection_string = ''
 container_name = 'data-swollen'
 master_file = constants.csv_file_path
 
